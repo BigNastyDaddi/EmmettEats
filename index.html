@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emmett Eats!</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            text-align: center;
+            background: linear-gradient(to right, rgba(128, 8, 80, 0.8), rgba(51, 2, 48, 0.8)); /* Page gradient */
+            color: #fff;
+            min-height: 100vh;
+            margin: 0;
+            display: flex; /* Enable flexbox */
+            flex-direction: column; /* Stack elements vertically */
+            align-items: center; /* Center horizontally */
+        }
+        h1 {
+            font-size: 3rem;
+            font-weight: bold;
+            background: linear-gradient(to right, #ff80c0, #ff1a75); /* Brighter gradient for title */
+            -webkit-background-clip: text;
+            color: transparent;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+        }
+        /* New CSS for the image */
+        #headerImage {
+            width: 80%; /* Responsive width */
+            max-width: 400px; /* Set a maximum width */
+            height: auto; /* Maintain aspect ratio */
+            margin-bottom: 20px; /* Space below the image */
+            border-radius: 15px; /* Rounded corners for aesthetics */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); /* Soft shadow for depth */
+        }
+        #searchForm {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px; /* Space below the search form */
+        }
+        #searchInput {
+            width: 60%;
+            max-width: 500px;
+            min-width: 200px;
+            padding: 12px 15px;
+            border: none;
+            border-radius: 25px;
+            font-size: 1rem;
+            outline: none;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: box-shadow 0.3s, transform 0.3s;
+        }
+        #searchInput:focus {
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+            transform: scale(1.02); /* Subtle scale-up on focus */
+        }
+        button {
+            padding: 12px 20px;
+            background: linear-gradient(135deg, rgba(128, 8, 80, 1), rgba(51, 2, 48, 1)); /* Button gradient */
+            border: none;
+            border-radius: 25px;
+            color: #fff;
+            font-weight: bold;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+        button:hover {
+            transform: translateY(-3px); /* Lift effect */
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3); /* Deepen shadow on hover */
+        }
+        #results {
+            margin-top: 20px;
+        }
+        .result-item {
+            background: linear-gradient(to right, rgba(128, 8, 80, 0.8), rgba(51, 2, 48, 0.8)); /* Semi-transparent gradient */
+            color: #fff;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Soft shadow for separation */
+        }
+        /* Responsive adjustments for smaller screens */
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 2rem; /* Smaller title for small screens */
+            }
+            #headerImage {
+                width: 100%; /* Ensure it fits on small screens */
+            }
+            #searchInput {
+                width: 80%;
+                margin-bottom: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Search Emmett's Food Adventures!</h1>
+    <img id="headerImage" src="EE.jpg" alt="Emmett's Food Adventures" />
+    <form id="searchForm">
+        <input type="text" id="searchInput" placeholder="Enter restaurant or food name" required>
+        <button type="submit">Search</button>
+    </form>
+    <div id="results"></div>
+
+    <script>
+        const form = document.getElementById('searchForm');
+        const resultsDiv = document.getElementById('results');
+
+        form.addEventListener('submit', async (event) => {
+            event.preventDefault(); // Prevent form submission and page reload
+
+            const query = document.getElementById('searchInput').value;
+            try {
+                const response = await fetch(`https://emmetteats.com/search?restaurantName=${encodeURIComponent(query)}`);
+                const data = await response.json();
+
+                if (data.length > 0) {
+                    resultsDiv.innerHTML = data.map(item => `
+                        <div class="result-item">
+                            <h2>${item.restaurantName}</h2>
+                            <p><strong>Food:</strong> ${item.food || 'Not specified'}</p>
+                            <p><strong>Rating:</strong> ${item.rating || 'No rating available'}</p>
+                        </div>
+                    `).join('');
+                } else {
+                    resultsDiv.innerHTML = '<p>No results found.</p>';
+                }
+            } catch (error) {
+                console.error('Error fetching data:', error);
+                resultsDiv.innerHTML = '<p>Error fetching results.</p>';
+            }
+        });
+    </script>
+</body>
+</html>
+

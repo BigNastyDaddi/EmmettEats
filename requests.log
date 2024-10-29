@@ -1,0 +1,7 @@
+2024-10-27T15:45:20.075Z - GET /
+2024-10-27T15:45:24.981Z - GET /search?restaurantName=pho
+2024-10-27T15:45:30.782Z - GET /search?restaurantName=b
+2024-10-27T15:47:40.455Z - GET /search?restaurantName=test - IP: 172.69.71.151
+2024-10-27T15:47:42.123Z - GET /search?restaurantName=c - IP: 172.69.71.151
+2024-10-27T16:10:29.243Z - GET /EE.jpg - IP: 172.71.30.124
+2024-10-29T00:28:32.931Z - GET /.env - IP: 172.71.182.137
