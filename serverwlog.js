@@ -7,7 +7,7 @@ const cors = require('cors');
 
 // SSL options
 const options = {
-    key: fs.readFileSync(path.join(__dirname, 'privkey.pem')),
+    key: fs.readFileSync('/home/ben/.ssh/privkey.pem'),
     cert: fs.readFileSync(path.join(__dirname, 'fullchain.pem'))
 };
 
